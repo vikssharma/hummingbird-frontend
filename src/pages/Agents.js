@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 //import * as fs from "fs";
 
 const Agents = () => {
+  const host_uri = 'http://34.229.222.57:5000';
   const [agents, setAgents] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [selectedAgentConv, setSelectedAgentConv] = useState(null);
@@ -40,7 +41,7 @@ const Agents = () => {
         setCurrentAudio(null);
       }
 
-      const audio = new Audio(`http://localhost:5000/api/agents/audio/${conversationId}`);
+      const audio = new Audio(host_uri+`/api/agents/audio/${conversationId}`);
       audio.play().catch((err) => {
         console.error('Playback failed:', err);
       });
@@ -67,7 +68,7 @@ const Agents = () => {
 	  setSelectedAgentConv(agent);
 	  setLoadingHistory(true);
 	  try {
-		const res = await axios.get(`http://localhost:5000/api/agents/conversations/${agent.agent_id}`, {
+		const res = await axios.get(host_uri+`/api/agents/conversations/${agent.agent_id}`, {
 			headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
 		  });
 		//const data = await res.json();
@@ -92,7 +93,7 @@ const Agents = () => {
 	  try {
 		await Promise.all(
 		  selectedIds.map(id =>
-			axios.delete(`http://localhost:5000/api/agents/${id}`, {
+			axios.delete(host_uri+`/api/agents/${id}`, {
 			  headers: { Authorization: `Bearer ${token}` }
 			})
 		  )
@@ -108,7 +109,7 @@ const Agents = () => {
 
   const fetchAgents = async (page = 1, query = search) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/agents?page=${page}`, {
+      const res = await axios.get(host_uri+`/api/agents?page=${page}`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { page, search: query }
       });
@@ -123,7 +124,7 @@ const Agents = () => {
   const handleViewAgentDetails = async (agent) => {
 	  setSelectedAgent(agent);
 	  try {
-		const res = await axios.get(`http://localhost:5000/api/agents/${agent.agent_id}`, {
+		const res = await axios.get(host_uri+`/api/agents/${agent.agent_id}`, {
 			headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
 		  });
 		//const data = await res.json();
@@ -142,7 +143,7 @@ const Agents = () => {
 
   const handleUpdate = async (agent_id, updatedData) => {
     try {
-      await axios.put(`http://localhost:5000/api/agents/${agent_id}`, updatedData, {
+      await axios.put(host_uri+`/api/agents/${agent_id}`, updatedData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -203,7 +204,7 @@ const Agents = () => {
 				  onClick={async () => {
 					if (!window.confirm('Delete this agent?')) return;
 					try {
-					  await axios.delete(`http://localhost:5000/api/agents/${agent.agent_id}`, {
+					  await axios.delete(host_uri+`/api/agents/${agent.agent_id}`, {
 						headers: { Authorization: `Bearer ${token}` }
 					  });
 					  toast.success('🗑️ Agent deleted!');
@@ -321,7 +322,7 @@ const Agents = () => {
 				  );	
 				  console.log("docid : " + uploadRes.data.id);	
 				  await axios.post(
-					`http://localhost:5000/api/agents/${selectedAgent.agent_id}/${uploadRes.data.id}/upload`,
+					host_uri+`/api/agents/${selectedAgent.agent_id}/${uploadRes.data.id}/upload`,
 					formData,
 					{
 					  headers: {
@@ -350,7 +351,7 @@ const Agents = () => {
 				if (!window.confirm('Are you sure you want to delete this agent?')) return;
 
 				try {
-				  await axios.delete(`http://localhost:5000/api/agents/${selectedAgent.agent_id}`, {
+				  await axios.delete(host_uri+`/api/agents/${selectedAgent.agent_id}`, {
 					headers: { Authorization: `Bearer ${token}` }
 				  });
 				  toast.success('🗑️ Agent deleted!');
@@ -390,7 +391,7 @@ const Agents = () => {
 					</button>
 					<audio
 						ref={(el) => (audioRefs.current[conv._id] = el)}
-						src={`http://localhost:5000/api/agents/audio/${conv.conversation_id}`}
+						src={host_uri+`/api/agents/audio/${conv.conversation_id}`}
 						preload="none"
 						onEnded={() => setCurrentAudio(null)}
 					  />

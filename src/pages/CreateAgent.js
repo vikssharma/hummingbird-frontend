@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const CreateAgent = () => {
+  const host_uri = 'http://34.229.222.57:5000';
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [tags, setTags] = useState('');
@@ -100,7 +101,7 @@ const CreateAgent = () => {
   
   const fetchVoices = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/agents/voices`, {
+      const res = await axios.get(host_uri+`/api/agents/voices`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
       });
       setVoices(res.data)
@@ -161,7 +162,7 @@ const CreateAgent = () => {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:5000/api/agents',
+        host_uri+'/api/agents',
         {
           company,
 		  name,

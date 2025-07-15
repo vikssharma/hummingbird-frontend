@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 
 const Register = () => {
-	
+  const host_uri = 'http://34.229.222.57:5000';
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ const Register = () => {
     if (!validate()) return;
 
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
+      const response = await axios.post(host_uri+'/api/register', formData);
       const { token } = response.data;
       login(token);
 	  toast.success('Registration successful!');

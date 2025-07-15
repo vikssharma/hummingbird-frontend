@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function AgentAnalytics() {
+  const host_uri = 'http://34.229.222.57:5000';	 
   const [data, setData] = useState([]);
   const [agentFilter, setAgentFilter] = useState('');
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -19,7 +20,7 @@ export default function AgentAnalytics() {
 	}
     if (month) params.append('month', month);
     
-    const res = await fetch(`http://localhost:5000/api/analytics?${params.toString()}`, {
+    const res = await fetch(host_uri+`/api/analytics?${params.toString()}`, {
 			headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
 		  });
     const json = await res.json();
@@ -31,7 +32,7 @@ export default function AgentAnalytics() {
     setLoading(true);
 	
 	try {
-      const res = await axios.get(`http://localhost:5000/api/agents/list`, {
+      const res = await axios.get(host_uri+`/api/agents/list`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setAgents(res.data.agents);

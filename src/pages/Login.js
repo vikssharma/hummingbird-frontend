@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 const Login = () => {
+  const host_uri = 'http://34.229.222.57:5000';
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const Login = () => {
 	  setError('');
 
 	  try {
-		const response = await axios.post('http://localhost:5000/api/login', {
+		const response = await axios.post(host_uri+'/api/login', {
 		  "email":email,
 		  "password":password
 		});

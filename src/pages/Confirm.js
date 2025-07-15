@@ -7,6 +7,7 @@ const Confirm = () => {
   const [msg, setMsg] = useState('Confirming...');
   const called = useRef(false); 
   const navigate = useNavigate();
+  const host_uri = 'http://34.229.222.57:5000';
 
   useEffect(() => {
 	if (called.current) return; // prevents reruns
@@ -14,7 +15,7 @@ const Confirm = () => {
 	
       const confirm = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/confirm/${token}`);
+        const res = await axios.get(host_uri+`/api/confirm/${token}`);
         setMsg(res.data.message);
         setTimeout(() => navigate('/login'), 3000);
       } catch (err) {
